@@ -7,6 +7,7 @@ $params = array_merge(
 );
 
 return [
+    'layout'=>'mains',
     'language'=>'zh-CN',//提示为中文
     'timeZone'=>'PRC',//时区为中国
     'defaultRoute'=>'brand/index',

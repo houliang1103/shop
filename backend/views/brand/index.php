@@ -7,9 +7,8 @@
 <a href="<?=yii\helpers\Url::to(['index','status'=>0])?>" class="btn btn-success">下线</a>
 <table class="table">
     <tr>
-        <th>商标</th>
-        <th>ID</th>
         <th>品牌</th>
+        <th>商标</th>
         <th>排序</th>
         <th>状态</th>
         <th>简介</th>
@@ -19,10 +18,8 @@
         $status1 = "<a title='点击改变状态' href=".yii\helpers\Url::to(['status','id'=>$brand->id]).">上线</a>";
         $status2 = "<a title='点击改变状态' href=".yii\helpers\Url::to(['status','id'=>$brand->id]).">下线</a>";
         ?>
-        <tr>
-            <td><?=\yii\bootstrap\Html::img("/".$brand->logo,["height"=>50])?></td>
-            <td><?=$brand->id?></td>
-            <td><?=$brand->name?></td>
+        <tr><td><?=$brand->name?></td>
+            <td><?=\yii\bootstrap\Html::img($brand->logo,["height"=>50])?></td>
             <td><?=$brand->sort?></td>
             <td><?php if($brand->status==1){echo $status1;}else{echo $status2;}?></td>
             <td><?=$brand->intro?></td>
