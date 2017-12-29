@@ -35,9 +35,30 @@ AppAsset::register($this);
         ],
     ]);
     $menuItems = [
-        ['label' => '品牌管理', 'url' => ['/brand/index']],
-        ['label' => '文章分类', 'url' => ['/article-categrory/index']],
-        ['label' => '文章管理', 'url' => ['/article/index']],
+        ['label' => '商品管理',
+            'items'=>[
+                ['label' =>'商品列表','url'=>'/category/index',],
+                ['label' =>'添加商品','url'=>'/category/add',],
+            ]
+        ],
+        ['label' => '品牌管理',
+            'items'=>[
+                    ['label' =>'品牌列表','url'=>'/brand/index',],
+                    ['label' =>'添加品牌','url'=>'/brand/add',],
+            ]
+        ],
+        ['label' => '文章分类',
+            'items'=>[
+                ['label' =>'分类列表','url'=>'/article-categrory/index',],
+                ['label' =>'添加分类','url'=>'/article-categrory/add',],
+            ]
+        ],
+        ['label' => '文章管理',
+            'items'=>[
+                ['label' =>'文章列表','url'=>'/article/index',],
+                ['label' =>'添加文章','url'=>'/article/add',],
+            ]
+        ],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/admin/login']];
