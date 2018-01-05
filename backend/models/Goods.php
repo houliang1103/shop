@@ -26,8 +26,8 @@ use yii\db\ActiveRecord;
  */
 class Goods extends \yii\db\ActiveRecord
 {
-    public $content;
 
+    public $imgsFile;
     public function behaviors()
     {
         return [
@@ -46,10 +46,10 @@ class Goods extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name','content','market_price', 'shop_price', 'goods_category_id', 'brand_id', 'stock'], 'required'],
+            [['name','market_price', 'shop_price', 'goods_category_id', 'brand_id', 'stock'], 'required'],
             [['create_time', 'status', 'goods_category_id', 'brand_id', 'stock', 'sort'], 'integer'],
             [['market_price', 'shop_price'], 'number'],
-            [['logo','sn'],'safe']
+            [['logo','sn','imgsFile'],'safe']
         ];
     }
 
@@ -68,14 +68,14 @@ class Goods extends \yii\db\ActiveRecord
             'logo' => '商标',
             'imgs' => '商品展示',
             'status' => '状态',
-            'goods_category_id' => '分类ID',
-            'brand_id' => '品牌ID',
+            'goods_category_id' => '所属分类',
+            'brand_id' => '所属品牌',
             'stock' => '库存',
             'sort' => '排序号',
         ];
     }
     //商品与品牌一对一关系
-    public function getBandName(){
+    public function getBrandName(){
         return $this->hasOne(Brand::className(),['id'=>'brand_id']);
     }
     //商品与商品分类一对一关系

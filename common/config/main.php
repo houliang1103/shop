@@ -6,6 +6,17 @@ return [
     ],
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
+
+        'assetManager' => [
+            'bundles' => [
+                'dmstr\web\AdminLteAsset' => [
+                    'skin' => 'skin-blue',
+                     ],
+                ],
+            ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
