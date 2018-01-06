@@ -23,6 +23,7 @@ class LoginForm extends Model
         return [
             [['username','password'],'required'],
             [['rememberMe','code',],'safe'],
+            [['code'],'captcha','captchaAction' => 'admin/captcha'],
         ];
 
     }

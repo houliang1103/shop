@@ -13,9 +13,9 @@ use dmstr\widgets\Alert;
                 if ($this->title !== null) {
                     echo \yii\helpers\Html::encode($this->title);
                 } else {
-                    echo \yii\helpers\Inflector::camel2words(
+                    echo '   '/*\yii\helpers\Inflector::camel2words(
                         \yii\helpers\Inflector::id2camel($this->context->module->id)
-                    );
+                    )*/;
                     echo ($this->context->module->id !== \Yii::$app->id) ? '<small>Module</small>' : '';
                 } ?>
             </h1>
@@ -39,7 +39,7 @@ use dmstr\widgets\Alert;
     <div class="pull-right hidden-xs">
         <b class="nowTime"></b>
     </div>
-    <strong>版权 &copy; yii2 <a href="#">more..</a></strong>
+    <strong>版权 &copy; yii2 <a href="#">more...</a></strong>
 </footer>
 
 <!-- Control Sidebar -->

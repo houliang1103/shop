@@ -5,7 +5,7 @@
 <h1>管理员列表</h1>
 
 <a href="<?=yii\helpers\Url::to(['add'])?>" class="btn btn-success">添加管理员</a>
-
+<div class="table-responsive">
 <table class="table">
     <tr>
         <th>序号</th>
@@ -32,5 +32,6 @@
         </tr>
     <?php endforeach;?>
 </table>
+    </div>
 
 

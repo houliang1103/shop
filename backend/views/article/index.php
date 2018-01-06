@@ -5,6 +5,7 @@
 <!--<a href="<?/*=yii\helpers\Url::to(['index'])*/?>" class="btn btn-success">全部</a>
 <a href="<?/*=yii\helpers\Url::to(['index','status'=>1])*/?>" class="btn btn-success">上线</a>
 <a href="<?/*=yii\helpers\Url::to(['index','status'=>0])*/?>" class="btn btn-success">下线</a>-->
+<div class="table-responsive">
 <table class="table">
     <tr>
         <th>ID</th>
@@ -34,4 +35,5 @@
         </tr>
     <?php endforeach;?>
 </table>
+</div>
 <?=yii\widgets\LinkPager::widget(['pagination' => $pagination])?>

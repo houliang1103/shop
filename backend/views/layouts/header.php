@@ -19,6 +19,7 @@ use yii\helpers\Html;
 
             <ul class="nav navbar-nav">
 
+
                 <!-- Messages: style can be found in dropdown.less-->
 
                 <!-- Tasks: style can be found in dropdown.less -->
@@ -44,25 +45,26 @@ use yii\helpers\Html;
 
                             <p>
                                 Yii advanced development
-                                <small class="nowTime"></small>
+
                             </p>
                         </li>
                         <!-- Menu Body -->
                         <li class="user-body">
-                            <div class="col-xs-4 text-center">
-                                <a href="#">Followers</a>
+                            <center class="nowTime"></center>
+                            <!--<div class="col-xs-4 text-center">
+                                <a href="#"></a>
                             </div>
                             <div class="col-xs-4 text-center">
-                                <a href="#">Sales</a>
+                                <a href="#"></a>
                             </div>
                             <div class="col-xs-4 text-center">
-                                <a href="#">Friends</a>
-                            </div>
+                                <a href="#"></a>
+                            </div>-->
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+
                             </div>
                             <div class="pull-right">
                                 <?php
@@ -81,7 +83,8 @@ use yii\helpers\Html;
 
                 <!-- User Account: style can be found in dropdown.less -->
                 <li>
-                    <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                    <span>&ensp;&ensp;&ensp;&ensp;</span>
+                    <!--<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>-->
                 </li>
             </ul>
         </div>

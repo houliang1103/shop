@@ -5,12 +5,25 @@ namespace backend\controllers;
 use backend\filters\CheckFilter;
 use backend\models\Admin;
 use backend\models\LoginForm;
+use yii\captcha\Captcha;
 use yii\helpers\ArrayHelper;
 
 class AdminController extends \yii\web\Controller
 {
 
 
+    //验证码
+    public function actions()
+    {
+        return [
+            'captcha'=>[
+                'class' => 'yii\captcha\CaptchaAction',
+                'fixedVerifyCode' =>YII_ENV_TEST ? 'testme' : null,
+                'minLength' => 4,
+                'maxLength' => 4
+            ]
+        ];
+    }
     public function actionIndex()
     {
         $models = Admin::find()->all();
@@ -104,7 +117,7 @@ class AdminController extends \yii\web\Controller
     public function actionLogin(){
         //判断是否登录
         if (!\Yii::$app->user->isGuest){
-            return $this->redirect('/admin/index');
+            return $this->redirect('/goods/index');
         }
 
         $model = new LoginForm();
@@ -122,7 +135,7 @@ class AdminController extends \yii\web\Controller
                     $admin->save();
                     \Yii::$app->session->setFlash('success','登录成功');
                     //跳转
-                    return $this->redirect('/admin/index');
+                    return $this->redirect('/goods/index');
                 }else{
                     $model->addError('password','密码不正确');
                 }

@@ -2,9 +2,7 @@
 /* @var $this yii\web\View */
 ?>
 <a href="<?=yii\helpers\Url::to(['add'])?>" class="btn btn-success">添加分类</a>
-<!--<a href="<?/*=yii\helpers\Url::to(['index'])*/?>" class="btn btn-success">全部</a>
-<a href="<?/*=yii\helpers\Url::to(['index','status'=>1])*/?>" class="btn btn-success">上线</a>
-<a href="<?/*=yii\helpers\Url::to(['index','status'=>0])*/?>" class="btn btn-success">下线</a>-->
+<div class="table-responsive">
 <table class="table">
     <tr>
         <th style="text-align: center">折叠|展开</th>
@@ -34,6 +32,7 @@
 
     <?php endforeach;?>
 </table>
+</div>
 <?php
 $js = <<<aaa
  $('.tree_tr').click(function () {

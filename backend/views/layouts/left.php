@@ -13,11 +13,9 @@
                     if (Yii::$app->user->isGuest){
                         echo "<a href=".yii\helpers\Url::to('login').">请登录</a>";
                     }else{
-
                         echo "欢迎：".Yii::$app->user->identity->username;
                     }
                     ?></p>
-
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
@@ -34,110 +32,39 @@
         </form>-->
         <!-- /.search form -->
 
-        <?= dmstr\widgets\Menu::widget(
+        <!--dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
-                'items' => [
-                    ['label' => 'admin', 'options' => ['class' => 'header']],
-                    ['label' => '管理员', 'icon' => 'file-code-o', 'url' => ['admin/index']],
-                    //['label' => 'Debug', 'icon' => 'dashboard', 'url' => ['/debug']],
-//                    ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
-                    [
-                        'label' => 'RBAC',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '权限列表', 'icon' => 'file-code-o', 'url' => ['auth-item/index'],],
-                            ['label' => '添加权限', 'icon' => 'dashboard', 'url' => ['auth-item/add'],],
-                            ['label' => '角色列表', 'icon' => 'dashboard', 'url' => ['role/index'],],
-                            ['label' => '添加角色', 'icon' => 'dashboard', 'url' => ['role/add'],],
-                            /*[
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],*/
-                        ],
-                    ],
-
-                    [
-                        'label' => '品牌管理',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '品牌展示', 'icon' => 'file-code-o', 'url' => ['brand/index'],],
-                            ['label' => '添加品牌', 'icon' => 'dashboard', 'url' => ['brand/add'],],
-                            /*[
-                                'label' => 'Level One',
-                                'icon' => 'circle-o',
-                                'url' => '#',
-                                'items' => [
-                                    ['label' => 'Level Two', 'icon' => 'circle-o', 'url' => '#',],
-                                    [
-                                        'label' => 'Level Two',
-                                        'icon' => 'circle-o',
-                                        'url' => '#',
-                                        'items' => [
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                            ['label' => 'Level Three', 'icon' => 'circle-o', 'url' => '#',],
-                                        ],
-                                    ],
-                                ],
-                            ],*/
-                        ],
-                    ],
-
-                    [
-                        'label' => '商品管理',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '商品展示', 'icon' => 'file-code-o', 'url' => ['goods/index'],],
-                            ['label' => '添加商品', 'icon' => 'dashboard', 'url' => ['goods/add'],],
-                        ],
-                    ],
-                    [
-                        'label' => '商品分类',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '分类展示', 'icon' => 'file-code-o', 'url' => ['category/index'],],
-                            ['label' => '添加分类', 'icon' => 'dashboard', 'url' => ['category/add'],],
-                        ],
-                    ],
-                    [
-                        'label' => '文章管理',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '文章展示', 'icon' => 'file-code-o', 'url' => ['article/index'],],
-                            ['label' => '添加文章', 'icon' => 'dashboard', 'url' => ['article/add'],],
-                        ],
-                    ],
-                    [
-                        'label' => '文章分类',
-                        'icon' => 'share',
-                        'url' => '#',
-                        'items' => [
-                            ['label' => '文章分类展示', 'icon' => 'file-code-o', 'url' => ['article-categrory/index'],],
-                            ['label' => '添加文章分类', 'icon' => 'dashboard', 'url' => ['article-categrory/add'],],
-                        ],
-                    ],
-
-                ],
+                'items' =>\mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id)
             ]
-        ) ?>
+        )-->
+        <?php
+        $callback = function($menu){
+            $data = json_decode($menu['data'], true);
+            $items = $menu['children'];
+            $return = [
+                'label' => $menu['name'],
+                'url' => [$menu['route']],
+            ];
+            //处理我们的配置
+            if ($data) {
+                //visible
+                isset($data['visible']) && $return['visible'] = $data['visible'];
+                //icon
+                isset($data['icon']) && $data['icon'] && $return['icon'] = $data['icon'];
+                //other attribute e.g. class...
+                $return['options'] = $data;
+            }
+            //没配置图标的显示默认图标
+            (!isset($return['icon']) || !$return['icon']) && $return['icon'] = 'fa fa-superpowers';
+            $items && $return['items'] = $items;
+            return $return;
+        };
+        //这里我们对一开始写的菜单menu进行了优化
+        echo dmstr\widgets\Menu::widget( [
+            'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
+            'items' => \mdm\admin\components\MenuHelper::getAssignedMenu(Yii::$app->user->id, null, $callback),
+        ] ); ?>
 
     </section>
 

@@ -37,7 +37,7 @@ class GoodsController extends \yii\web\Controller
         $keyword= $request->get('keyword');
 
         if(in_array($status,['0','1'])){
-            $goods->andWhere("status==={$status}");
+            $goods->andWhere("status={$status}");
         }
         if ($minprice){
             $goods->andWhere("shop_price>={$minprice}");
@@ -51,10 +51,10 @@ class GoodsController extends \yii\web\Controller
         $pages = new Pagination(
             [
                 'totalCount' => $goods->count(),
-                'pageSize' => 2
+                'pageSize' => 5
             ]
         );
-        $goods = $goods->offset($pages->offset)
+        $goods = $goods->offset($pages->offset)->orderBy('id')
             ->limit($pages->limit)
             ->all();
         return $this->render('index',compact('goods','pages'));
@@ -101,6 +101,7 @@ class GoodsController extends \yii\web\Controller
                 }
 
                 //给图库添加数据
+                if($goods->imgsFile){
                 foreach ($goods->imgsFile as $img){
                     //实例图库
                     $images = new GoodsGallery();
@@ -110,7 +111,7 @@ class GoodsController extends \yii\web\Controller
                     if ($images->validate()) {
                         $images->save();
                     }
-                }
+                } }
                 \Yii::$app->session->setFlash('success','商品添加成功');
                 return $this->redirect('index');
             }
@@ -177,5 +178,16 @@ class GoodsController extends \yii\web\Controller
         }
         return $this->render('add', compact('cates','goods','brands','intro'));
     }
-
+//声明一个方法改变上线状态
+    public function actionStatus($id){
+        $brand = Goods::findOne($id);
+        if ($brand->status==1){
+            $brand->status=0;
+            $brand->save();
+        }else{
+            $brand->status=1;
+            $brand->save();
+        }
+        return $this->redirect('index');
+    }
 }

@@ -38,10 +38,12 @@ $fieldOptions2 = [
             ->field($model, 'password', $fieldOptions2)
             ->label(false)
             ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
-        <?php //$form ->field($model,'code')->widget(yii\captcha\Captcha::className(),[
-        //\yii\captcha\Captcha::className()
-        //'template' => '<div class="row"><div class="col-lg-2">{input}</div><div class="col-lg-2">{image}</div></div>',
-        //]);?>
+
+        <?=$form ->field($model,'code')->label(false)->inline()->widget(yii\captcha\Captcha::className(),[
+//        \yii\captcha\Captcha::className()
+        'captchaAction' => 'admin/captcha',
+        'template' => '<div class="row"><div class="col-lg-4">{input}</div><div class="col-lg-4">{image}</div></div>',
+        ]);?>
         <div class="row">
             <div class="col-xs-8">
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
