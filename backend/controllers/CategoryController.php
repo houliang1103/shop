@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\Category;
+use backend\models\Category;
 use yii\data\Pagination;
 use yii\db\Exception;
 use yii\helpers\Json;

@@ -2,8 +2,10 @@
 
 namespace backend\models;
 
-use app\models\Brand;
-use app\models\Category;
+use backend\models\Brand;
+use backend\models\GoodsGallery;
+use backend\models\GoodsIntro;
+use backend\models\Category;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -79,7 +81,17 @@ class Goods extends \yii\db\ActiveRecord
         return $this->hasOne(Brand::className(),['id'=>'brand_id']);
     }
     //商品与商品分类一对一关系
+
     public function getCateName(){
         return $this->hasOne(Category::className(),["id"=>"goods_category_id"]);
     }
+    //商品与商品详情一对一
+    public function getIntro(){
+        return $this->hasOne(GoodsIntro::className(),['goods_id'=>'id']);
+    }
+    //商品与商品图片一对多
+    public function getImages(){
+        return $this->hasMany(GoodsGallery::className(),['goods_id'=>'id']);
+    }
+
 }

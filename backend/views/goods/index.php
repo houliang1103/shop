@@ -3,7 +3,7 @@
 ?>
 <h1>商品列表</h1>
 <div class="row">
-    <div class="pull-left"><a href="<?=yii\helpers\Url::to(['add'])?>" class="btn btn-success">添加品牌</a></div>
+    <div class="pull-left"><a href="<?=yii\helpers\Url::to(['add'])?>" class="btn btn-success">添加商品</a></div>
     <div class="pull-right">
         <form class="form-inline">
             <select name="status" class="form-control">

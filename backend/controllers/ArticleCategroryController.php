@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\ArticleCategrory;
+use backend\models\ArticleCategrory;
 use yii\web\Request;
 
 class ArticleCategroryController extends \yii\web\Controller

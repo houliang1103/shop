@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace backend\models;
 
 use backend\components\MenuQuery;
 use creocoder\nestedsets\NestedSetsBehavior;

@@ -7,7 +7,6 @@ $params = array_merge(
 );
 
 return [
-
     'layout'=>'main',
     'language'=>'zh-CN',//提示为中文
     'timeZone'=>'PRC',//时区为中国

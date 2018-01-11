@@ -2,10 +2,10 @@
 
 namespace backend\controllers;
 
-use app\models\Brand;
-use app\models\Category;
-use app\models\GoodsGallery;
-use app\models\GoodsIntro;
+use backend\models\Brand;
+use backend\models\Category;
+use backend\models\GoodsGallery;
+use backend\models\GoodsIntro;
 use backend\models\Goods;
 use Symfony\Component\Console\Helper\Helper;
 use yii\data\Pagination;
@@ -27,7 +27,6 @@ class GoodsController extends \yii\web\Controller
     //展示页面
     public function actionIndex()
     {
-
         $goods = Goods::find();
         //获得搜索数据
         $request = \Yii::$app->request;
@@ -160,6 +159,7 @@ class GoodsController extends \yii\web\Controller
                 if ($intro->validate()) {
                     $intro->save();
                 }
+                if ($goods->imgsFile){
 
                 //给图库添加数据
                 foreach ($goods->imgsFile as $img){
@@ -172,6 +172,8 @@ class GoodsController extends \yii\web\Controller
                         $images->save();
                     }
                 }
+                }
+
                 \Yii::$app->session->setFlash('success','商品添加成功');
                 return $this->redirect('index');
             }

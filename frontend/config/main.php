@@ -7,6 +7,8 @@ $params = array_merge(
 );
 
 return [
+    'layout'=>false,
+    'defaultRoute'=>'user/index',
     'language'=>'zh-CN',//提示为中文
     'timeZone'=>'PRC',//时区为中国
     'id' => 'app-frontend',
@@ -18,7 +20,7 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => \frontend\models\User::className(),
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],

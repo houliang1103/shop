@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\Brand;
+use backend\models\Brand;
 use flyok666\qiniu\Qiniu;
 use yii\data\Pagination;
 use yii\web\Request;
