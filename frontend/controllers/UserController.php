@@ -129,9 +129,5 @@ class UserController extends \yii\web\Controller
             return $this->redirect('login');
         }
     }
-    //修改收货地址
-    public function actionAddress($id){
-        $user = User::findOne($id);
-        return $this->render('address',compact('user'));
-    }
+
 }

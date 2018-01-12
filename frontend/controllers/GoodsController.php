@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use backend\models\Category;
 use backend\models\Goods;
 use frontend\models\Cart;
+use yii\web\Cookie;
 
 
 class GoodsController extends \yii\web\Controller
@@ -50,28 +51,26 @@ class GoodsController extends \yii\web\Controller
     public function actionCart($id,$amount){
         //判断是否登录
         if (\Yii::$app->user->isGuest) {
-            //游客  存cookie 1.1得到设置cookie的对象
-            $setCookie = \Yii::$app->response->cookies;
             //2.1取出以前的cookie
             $cookieOld = \Yii::$app->request->cookies->getValue('cart',[]);
             //2.2判断是否存有该商品 存在修改
             if (array_key_exists($id,$cookieOld)) {
                 $cookieOld[$id] += $amount;
-
+//                echo 1111;exit;
             }else{
-                //不存在新增
-                $cookieOld[$id]=$amount;
+                //2.3不存在新增
+                $cookieOld[$id]=(int)$amount;
             }
-
+            //游客  存cookie 1.1得到设置cookie的对象
+            $setCookie = \Yii::$app->response->cookies;
             //1.2 保存cookie
-            $cookie = [
+            $cookie = new Cookie([
                 'name'=>'cart',
-                'value'=>[$cookieOld],
+                'value'=>$cookieOld,
                 'expire'=>time()+3600*24*30
-            ];
+            ]);
+
             $setCookie->add($cookie);
-
-
         }else{
             //已经登录  判断数据库是否有该商品的订单
             $user_id = \Yii::$app->user->id;
@@ -112,7 +111,6 @@ class GoodsController extends \yii\web\Controller
                 //  $goods[1]['num']=$cart[$good['id']];
             }
 
-
         }else{
             //已经登录  从数据库中取出数据
             $user_id = \Yii::$app->user->id;
@@ -149,11 +147,11 @@ class GoodsController extends \yii\web\Controller
             //保存cookie值
             $cartOld[$id]=$amount;
             //1.2 保存cookie
-            $cookie = [
+            $cookie = new Cookie([
                 'name'=>'cart',
-                'value'=>[$cartOld],
+                'value'=>$cartOld,
                 'expire'=>time()+3600*24*30
-            ];
+            ]);
             $setCookie->add($cookie);
 
 
@@ -177,10 +175,19 @@ class GoodsController extends \yii\web\Controller
             $setCookie = \Yii::$app->response->cookies;
             $cookie = \Yii::$app->request->cookies->getValue('cart');
             unset($cookie[$id]);
+            //1.2 保存cookie
+            $cookie = new Cookie([
+                'name'=>'cart',
+                'value'=>$cookie,
+                'expire'=>time()+3600*24*30
+            ]);
+            $setCookie->add($cookie);
+
         }else{
             //已登录删除数据库数据
             Cart::findOne(['user_id'=>\Yii::$app->user->id,'goods_id'=>$id])->delete();
         }
+        return $this->refresh();
     }
 
     //结算账单
