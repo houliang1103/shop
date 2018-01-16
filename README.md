@@ -9,7 +9,7 @@
 * 前台：首页、商品展示、商品购买、订单管理、在线支付等。
 3. 开发环境和技术  
    开发环境:	Window  
-   开发工具: Phpstorm+PHP5.6+GIT+Apache  
+   开发工具: Phpstorm+PHP7.0+GIT+Apache  
    相关技术: Yii2.0+CDN+jQuery+sphinx
 4. 项目人员组成周期成本
 
@@ -41,11 +41,12 @@ UI设计人员 |	0 |
 - [x]  品牌管理：
 - [x]  文章管理：
 - [x]  商品分类管理：
-- [ ]  商品管理：
-- [ ]  账号管理：
-- [ ]  权限管理：
-- [ ]  菜单管理：
-- [ ]  订单管理：
+- [x]  商品管理：
+- [x]  账号管理：
+- [x]  权限管理：
+- [x]  菜单管理：
+- [x]  订单管理：
+>
 5.2. 流程
 
 * 自动登录流程
@@ -60,14 +61,17 @@ UI设计人员 |	0 |
 ---
 1. 品牌功能  
 
-1.1. 需求  
+1.1. 需求 
+>
 品牌管理功能涉及品牌的列表展示、品牌添加、修改、删除功能。  
 品牌需要保存缩略图和简介。  
 品牌删除使用逻辑删除。        
 1.2.  流程  
+>
 实现品牌的增删改查功能  
 完善功能，提升体验  
 1.3. 要点难点及解决方案  
+>
 删除使用逻辑删除,只改变status属性,不删除记录  
 使用webupload插件,提升用户体验  
 使用composer下载和安装webupload  
@@ -77,16 +81,17 @@ composer安装插件报错,解决办法: composer require bailangzhan/yii2-webup
 ---
 2. 文章功能
 
-2.1.需求
-
+2.1. 需求 
+>
 文章的增删改查  
 文章分类的增删改查  
   
 2.2.设计要点  
+>
 文章内容与文章使用垂直分表 建立1对1关系
 
 2.3.要点难点及解决方案
-
+>
 文章分类不能重复,通过添加验证规则unique解决
 文章垂直分表,创建表单使用文章模型和文章详情模型
 文章内容添加使用富文本框 下载富文本插件composer require kucha/ueditor "*"
@@ -103,3 +108,111 @@ ztree插件 composer require liyuze/yii2-ztree 进入页面就要展开 点击�
 nested： composer require creocoder/yii2-nested-sets 不能用detelte去删除root节点,要用内置的deleteWithChildren()去删除
 健壮性的的时候不能放到自己的子孙节点,这个需要异常捕获
 JS字符串比较 lft>clft 改成lft-clft>0
+
+# yii-admin
+1. 下载RBAC包
+> php composer.phar require mdmsoft/yii2-admin "~2.0"
+2. 在mian.php中配置
+```php
+return [
+    'modules' => [
+        'aaaa' => [//记得aaaa不能重名,可随意更改
+            'class' => 'mdm\admin\Module',
+            'layout' => 'left-menu',//top  botton right 菜单位置
+            ...
+        ]
+        ...
+    ],
+    ...
+    'components' => [
+        ...
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager', // or use 'yii\rbac\DbManager'
+        ]
+    ],
+    'as access' => [
+        'class' => 'mdm\admin\components\AccessControl',
+        'allowActions' => [
+            'site/*',
+            'admin/*',
+            'some-controller/some-action',
+            // The actions listed here will be allowed to everyone including guests.
+            // So, 'admin/*' should not appear here in the production, of course.
+            // But in the earlier stages of your development, you may probably want to
+            // add a lot of actions here until you finally completed setting up rbac,
+            // otherwise you may not even take a first step.
+        ]
+    ],
+];
+
+```
+3. 菜单数据迁移
+> yii migrate --migrationPath=@mdm/admin/migrations
+4. rbac  建表
+> yii migrate --migrationPath=@yii/rbac/migrations
+
+5.  多国语言包  配置在conponents 中
+```php
+
+//多国语言包，设置admin-rbac 菜单
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        //'main' => 'main.php',
+                    ],
+                ],
+            ],
+        ],
+
+```
+
+
+# 前台
+1. 购物车模块
+---
+1.1  需求
+>//  存cookie 1.1得到设置cookie的对象
+            $setCookie = \Yii::$app->response->cookies;
+            //1.2 保存cookie
+            $cookie = new Cookie([
+                'name'=>'cart',
+                'value'=>$cookieOld,
+                'expire'=>time()+3600*24*30
+            ]);
+
+            $setCookie->add($cookie);
+模拟京东，未登录也可以加入购物车，将数据存储在COOkie中
+>
+登录后将COOkie数据同步到数据库，并删除COOkie数据
+>
+1.2 难点
+>
+需要将cookie存储数据做封装，除去重复代码
+
+
+2. 订单模块
+---
+2.1 需求
+>
+提交订单时，删除购物车对应数据，判断库存是否足够，订单生成后生成微信二维码进行支付
+>
+2.2 难点
+>
+由于需要对三个数据表操作，为了保证一致，需要用到事务，微信支付返回为POST传值，需要关闭csrf恶意提交数据；定时清理为处理的订单。
+
+
+### 其他
+1. 抽奖 
+> 
+redis-set
+2. 秒杀 
+> 
+防止库存为负：a-文件锁，b-redis（list队列存储数据）
+3. 缓存
+>
+session入redis
+ob缓存
