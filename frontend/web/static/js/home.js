@@ -4,6 +4,7 @@
 @时间：2013年11月15日
 */
 $(function(){
+
 	//左侧菜单收缩效果
 	$(".menu_wrap dt").click(function(){
 		$(this).siblings().toggle();

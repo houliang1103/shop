@@ -16,12 +16,12 @@ use yii\web\Request;
 class GoodsController extends \yii\web\Controller
 {
     //处理富文本内容
-    public function actions()
+   public function actions()
     {
         return [
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
-            ]
+            ],
         ];
     }
     //展示页面

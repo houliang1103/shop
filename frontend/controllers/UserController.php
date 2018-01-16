@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use frontend\components\ShopCart;
 use frontend\models\LoginForm;
 use frontend\models\User;
 use Mrgoon\AliSms\AliSms;
@@ -23,10 +24,7 @@ class UserController extends \yii\web\Controller
             ],
         ];
     }
-    public function actionIndex()
-    {
-        return $this->render('/goods/index');
-    }
+
     //注册
     public function actionRegist(){
 
@@ -110,16 +108,22 @@ class UserController extends \yii\web\Controller
                         //修改登录时间和登录Ip
                         $user->login_ip = ip2long($request->userIP);
                         $user->save(false);
-                        \Yii::$app->session->setFlash('success','登录成功');
+                        //COOKie购物车数据写入数据库
+                        $shopCart = new ShopCart();
+                        $shopCart->sysDb()->flush()->save();
+
+                        //\Yii::$app->session->setFlash('success','登录成功');
                         //跳转
-                        return $this->redirect('/goods/index');
+                        $back =  empty(\Yii::$app->session->get('back'))?'/goods/index':\Yii::$app->session->get('back');
+                        //销毁session
+                        \Yii::$app->session->remove('back');
+
+                        return $this->redirect($back);
+
                     }
                 }
 //                    $model->addError('username','用户不存在');
             }
-
-           \Yii::$app->session->setFlash('danger','登录失败');
-            return $this->redirect('login');
         }
    return $this->render('login');
     }

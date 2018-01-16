@@ -5,6 +5,16 @@
 */
 
 $(function(){
+
+    //总计金额
+    var total = 0;
+    $(".col5 span").each(function(){
+        total += parseFloat($(this).text());
+    });
+
+    $("#total").text(total.toFixed(2));
+
+
 	function update(id,amount){
 		$.get('update',{'id':id,'amount':amount},function (data) {
 			console.dir(data);

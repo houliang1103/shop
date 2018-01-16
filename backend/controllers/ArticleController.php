@@ -5,6 +5,8 @@ namespace backend\controllers;
 use backend\models\Article;
 use backend\models\ArticleCategrory;
 use backend\models\Detail;
+use flyok666\qiniu\Qiniu;
+use kucha\ueditor\UEditorAction;
 use yii\data\Pagination;
 use yii\helpers\ArrayHelper;
 
@@ -16,9 +18,58 @@ class ArticleController extends \yii\web\Controller
         return [
             'upload' => [
                 'class' => 'kucha\ueditor\UEditorAction',
-            ]
+            ],
+           'config' => [
+                "imageUrlPrefix"  => "www.hou1103.cn",//图片访问路径前缀
+                "imagePathFormat" => "/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}" //上传保存路径
+            ],
         ];
     }
+
+
+    /*public function actionUpload()
+    {
+        //上传七牛云开始
+        $config = [
+            'accessKey' => 'PjykTWwZiGEitP4-CES5qYfsBADJb_Gap3hJed9X',//AK
+            'secretKey' => 'pCVfybojhsir1IT4GWGGkSo5An9THdynw9IbRXWq',//SK
+            //'domain' => 'http://p1ht4b07w.bkt.clouddn.com',//临时域名
+            'domain' => 'http://p1jr2kct2.bkt.clouddn.com',//临时域名
+            'bucket' => 'yii-shop',//空间名称
+            'area' => Qiniu::AREA_HUADONG//区域
+        ];
+        $qiniu = new Qiniu($config);//实例化对象
+//var_dump($qiniu);exit;
+        $key = uniqid();//上传后的文件名  多文件上传有坑
+        $qiniu->uploadFile($_FILES['file']["tmp_name"], $key);//调用上传方法上传文件
+        $url = $qiniu->getLink($key);//得到上传后的地址
+        //返回的结果
+        $result = [
+            'code' => 0,
+            'url' => $url,
+            'attachment' => $url
+
+        ];
+
+        $configs = [
+            "imageUrlPrefix"  => "",//图片访问路径前缀
+            "imagePathFormat" => $url
+        ];
+        $ueditor = new UEditorAction($configs);
+        return json_encode($result);
+
+        return [
+            'upload' => [
+                'class' => 'kucha\ueditor\UEditorAction',
+            ],
+              'config' => [
+                  "imageUrlPrefix"  => "http://www.baidu.com",//图片访问路径前缀
+                  "imagePathFormat" => "/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}" //上传保存路径
+              ],
+
+
+        ];
+    }*/
     //展示
     public function actionIndex()
     {

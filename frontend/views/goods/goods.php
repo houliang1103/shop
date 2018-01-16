@@ -198,7 +198,7 @@ include_once Yii::getAlias('@app/views/common/header.php');
 						<li><span>商品编号： </span><?=$good->sn?></li>
 						<li class="market_price"><span>定价：</span><em>￥<?=$good->market_price?></em></li>
 						<li class="shop_price"><span>本店价：</span> <strong>￥<?=$good->shop_price?></strong> <a href="">(降价通知)</a></li>
-						<li><span>上架时间：</span><?=$good->create_time?></li>
+						<li><span>上架时间：</span><?=date('Y-m-d',$good->create_time)?></li>
 						<li ><span>库存：</span> <strong></strong><a href=""><?=$good->stock?></a></li> <!-- 此处的星级切换css即可 默认为5星 star4 表示4星 star3 表示3星 star2表示2星 star1表示1星 -->
 					</ul>
 					<form action="<?=\yii\helpers\Url::to('cart')?>" method="get" class="choose">

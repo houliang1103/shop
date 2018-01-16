@@ -22,10 +22,7 @@ class Address extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
-    {
-        return 'address';
-    }
+
 
     /**
      * @inheritdoc
@@ -33,13 +30,9 @@ class Address extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'user_id', 'province', 'city', 'address', 'tel'], 'required'],
-            [['id', 'user_id', 'status'], 'integer'],
-            [['province', 'city', 'name'], 'string', 'max' => 50],
-            [['area'], 'string', 'max' => 100],
-            [['address'], 'string', 'max' => 255],
-            [['tel'], 'string', 'max' => 20],
-            [['id'], 'unique'],
+            [[ 'user_id', 'province', 'city', 'address', 'tel','name'], 'required'],
+            [[ 'area', 'status'], 'safe'],
+            [['tel'], 'match','pattern' => '/0?(13|14|15|17|18|19)[0-9]{9}/','message' => '手机号码不正确'],
         ];
     }
 

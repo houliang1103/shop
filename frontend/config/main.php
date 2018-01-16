@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'layout'=>false,
-    'defaultRoute'=>'user/index',
+    'defaultRoute'=>'goods/index',
     'language'=>'zh-CN',//提示为中文
     'timeZone'=>'PRC',//时区为中国
     'id' => 'app-frontend',

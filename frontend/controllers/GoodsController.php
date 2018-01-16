@@ -150,7 +150,7 @@ class GoodsController extends \yii\web\Controller
             $cookie = new Cookie([
                 'name'=>'cart',
                 'value'=>$cartOld,
-                'expire'=>time()+3600*24*30
+                'expire'=>\Yii::$app->params['cookieTime']
             ]);
             $setCookie->add($cookie);
 
@@ -187,18 +187,9 @@ class GoodsController extends \yii\web\Controller
             //已登录删除数据库数据
             Cart::findOne(['user_id'=>\Yii::$app->user->id,'goods_id'=>$id])->delete();
         }
-        return $this->refresh();
+        return $this->redirect('cart-lists');
     }
 
-    //结算账单
-    public function actionPayment(){
-        //需要先判断是否登录
-        if (\Yii::$app->user->isGuest) {
-            //游客需要先登录才能结算
-            return $this->redirect('/user/login');
-        }
-        return $this->render('pay');
-    }
 
 
 }

@@ -25,7 +25,7 @@ include_once Yii::getAlias('@app/views/common/nav.php');
 	<!-- 页面头部 start -->
 	<div class="header w990 bc mt15">
 		<div class="logo w990">
-			<h2 class="fl"><a href="index.html"><img src="/static/images/timg.jpg" height="80" alt="悟空商城"></a></h2>
+			<h2 class="fl"><a href="<?=\yii\helpers\Url::to('/goods/index')?>"><img src="/static/images/timg.jpg" height="80" alt="悟空商城"></a></h2>
 			<div class="flow fr">
 				<ul>
 					<li class="cur">1.我的购物车</li>
@@ -40,11 +40,13 @@ include_once Yii::getAlias('@app/views/common/nav.php');
 	<div style="clear:both;"></div>
 
 	<!-- 主体部分 start -->
+<form id="form_cart" action="<?=\yii\helpers\Url::to('/orders/payment')?>" method="post">
 	<div class="mycart w990 mt10 bc">
 		<h2><span>我的购物车</span></h2>
 		<table>
 			<thead>
 				<tr>
+					<th>选择</th>
 					<th class="col1">商品名称</th>
 					<th class="col3">单价</th>
 					<th class="col4">数量</th>	
@@ -53,9 +55,11 @@ include_once Yii::getAlias('@app/views/common/nav.php');
 				</tr>
 			</thead>
 			<tbody>
+
             <?php foreach ($goods as $k=>$v):?>
 				<tr id="<?=$v['id']?>">
-					<td class="col1"><a href=""><img src="<?=$v['logo']?>" alt="" /></a>  <strong><a href="<?=\yii\helpers\Url::to(['detail','id'=>$v['id']])?>"><?=$v['name']?></a></strong></td>
+                    <td><input type="checkbox" name="goods_id[]" value="<?=$v['id']?>"></td>
+					<td class="col1"><a href="<?=\yii\helpers\Url::to(['/goods/detail','id'=>$v['id']])?>"><img src="<?=$v['logo']?>" alt="" /></a>  <strong><a href="<?=\yii\helpers\Url::to(['detail','id'=>$v['id']])?>"><?=$v['name']?></a></strong></td>
 					<td class="col3">￥<span><?=$v['shop_price']?></span></td>
 					<td class="col4"> 
 						<a href="javascript:;" class="reduce_num"></a>
@@ -74,10 +78,12 @@ include_once Yii::getAlias('@app/views/common/nav.php');
 			</tfoot>
 		</table>
 		<div class="cart_btn w990 bc mt10">
-			<a href="" class="continue">继续购物</a>
-			<a href="<?=\yii\helpers\Url::to('payment')?>" class="checkout">结 算</a>
+			<a href="<?=\yii\helpers\Url::to('/goods/index')?>" class="continue">继续购物</a>
+			<a href="javascript:void (0)" id="submit_cart" class="checkout">结 算</a>
+
 		</div>
 	</div>
+</form>
 	<!-- 主体部分 end -->
 
 	<div style="clear:both;"></div>
@@ -107,5 +113,10 @@ include_once Yii::getAlias('@app/views/common/nav.php');
 		</p>
 	</div>
 	<!-- 底部版权 end -->
+<script>
+    $('#submit_cart').click(function () {
+        $('#form_cart').submit();
+    });
+</script>
 </body>
 </html>
